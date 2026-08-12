@@ -3,12 +3,45 @@ import re
 import unicodedata
 from pathlib import Path
 
+from . import otel as _otel_backend
+
+_VALID_INSTRUMENTS = {"Counter", "UpDownCounter", "Histogram", "Gauge"}
+
 
 def _slugify(name: str) -> str:
     """Fallback: turn a KPI display name into a valid Python identifier."""
     ascii_name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
     slug = re.sub(r"[^a-zA-Z0-9]+", "_", ascii_name).strip("_").lower()
     return slug or "kpi"
+
+
+class OTelSpec:
+    """The OpenTelemetry instrumentation contract for one KPI: not just a
+    name, but the instrument kind, unit and attribute keys required to emit
+    it correctly. `kio.id` is always auto-injected by the package (see
+    `_BoundKPIMetric.record`) and is never a caller-supplied attribute.
+    """
+
+    AUTO_ATTRIBUTES = ("kio.id",)
+
+    def __init__(self, data: dict, metric_attr: str):
+        self.name = data.get("name") or f"ai4sweng.kpi.{metric_attr}"
+        instrument = data.get("instrument")
+        if instrument not in _VALID_INSTRUMENTS:
+            raise ValueError(
+                f"Invalid OTel instrument {instrument!r} for {metric_attr!r}. "
+                f"Must be one of: {sorted(_VALID_INSTRUMENTS)}"
+            )
+        self.instrument = instrument
+        self.unit = data.get("unit", "1")
+        self.caller_attributes = list(data.get("required_attributes", []))
+        self.required_attributes = list(self.AUTO_ATTRIBUTES) + self.caller_attributes
+
+    def __repr__(self):
+        return (
+            f"OTelSpec(name={self.name!r}, instrument={self.instrument!r}, "
+            f"unit={self.unit!r}, required_attributes={self.required_attributes!r})"
+        )
 
 
 class KPIMetric:
@@ -23,6 +56,16 @@ class KPIMetric:
         self.baseline = data.get("baseline", "")
         self.target = data.get("target", "")
         self.kios = list(data.get("kios", []))
+        otel_data = data.get("otel")
+        self.otel = OTelSpec(otel_data, self.attr) if otel_data else None
+
+    def for_kio(self, kio_id: str) -> "_BoundKPIMetric":
+        """Bind this KPI to one of its associated KIOs, so it can be `.record()`-ed
+        with `kio.id` auto-attached. Use this when you got the metric via
+        `get_kpi()`/`list_kpis()` instead of `KPI.KIOx.<attr>`."""
+        if kio_id not in self.kios:
+            raise ValueError(f"KPI {self.id!r} is not associated with {kio_id!r}. Associated KIOs: {self.kios}")
+        return _BoundKPIMetric(self, kio_id)
 
     def __repr__(self):
         return (
@@ -45,6 +88,34 @@ class KPIMetric:
         }
 
 
+class _BoundKPIMetric:
+    """A KPIMetric as seen through one specific KIO namespace. Carries the
+    `kio.id` context needed to record a correctly labeled OTel data point,
+    so `kio.id` never has to be typed by hand at the call site.
+    """
+
+    def __init__(self, metric: KPIMetric, kio_id: str):
+        self._metric = metric
+        self._kio_id = kio_id
+
+    def __getattr__(self, name):
+        return getattr(self._metric, name)
+
+    def __repr__(self):
+        return repr(self._metric)
+
+    def __str__(self):
+        return str(self._metric)
+
+    def record(self, value, **attributes) -> dict:
+        """Record `value` on the correctly-typed OTel instrument for this KPI.
+        Requires `pip install ai4sweng[otel]`. Raises ValueError if a required
+        attribute (per `metric.otel.required_attributes`) is missing.
+        Returns the full attribute set actually recorded (for logging/tests).
+        """
+        return _otel_backend.emit(self._metric, self._kio_id, value, attributes)
+
+
 class _KIONamespace:
     """Attribute namespace exposing the KPI metrics tracked by one KIO module."""
 
@@ -52,13 +123,13 @@ class _KIONamespace:
         self._kio_name = kio_name
         self._metrics = {m.attr: m for m in metrics}
         for attr, metric in self._metrics.items():
-            setattr(self, attr, metric)
+            setattr(self, attr, _BoundKPIMetric(metric, kio_name))
 
     def __dir__(self):
         return list(self._metrics.keys())
 
     def __iter__(self):
-        return iter(self._metrics.values())
+        return (_BoundKPIMetric(m, self._kio_name) for m in self._metrics.values())
 
     def __len__(self):
         return len(self._metrics)
@@ -68,7 +139,7 @@ class _KIONamespace:
 
 
 class _KPIInterface:
-    """Singleton entry point: KPI.KIO1.<metric_name> -> KPIMetric."""
+    """Singleton entry point: KPI.KIO1.<metric_name> -> _BoundKPIMetric."""
 
     _instance = None
 
@@ -121,7 +192,7 @@ class _KPIInterface:
     def get_kio_metrics(self, kio_name: str) -> dict:
         if kio_name not in self._by_kio:
             raise KeyError(f"KIO {kio_name!r} not found. Available: {self.list_kios()}")
-        return {m.attr: m for m in self._by_kio[kio_name]}
+        return {m.attr: _BoundKPIMetric(m, kio_name) for m in self._by_kio[kio_name]}
 
     def get_kpi(self, kpi_id: str) -> KPIMetric:
         for metric in self._kpis:

@@ -17,7 +17,8 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "black", "ruff"]
+otel = ["opentelemetry-api>=1.23"]
+dev = ["pytest", "black", "ruff", "opentelemetry-api>=1.23", "opentelemetry-sdk>=1.23"]
 
 [tool.setuptools.packages.find]
 where = ["."]

@@ -64,3 +64,34 @@ def test_list_kpis_returns_all_entries():
 def test_reload_after_editing_metrics_file(tmp_path, monkeypatch):
     KPI.reload()
     assert KPI.KIO7.code_generation_speed.id == "1.1"
+
+
+def test_metric_carries_otel_instrumentation_contract():
+    spec = KPI.KIO7.code_generation_speed.otel
+    assert spec.name == "ai4sweng.kpi.code_generation_speed"
+    assert spec.instrument == "Histogram"
+    assert spec.unit == "s"
+    assert spec.required_attributes == ["kio.id", "source"]
+
+
+def test_every_kpi_has_a_valid_otel_instrument():
+    valid = {"Counter", "UpDownCounter", "Histogram", "Gauge"}
+    for kpi in KPI.list_kpis():
+        assert kpi.otel is not None, f"{kpi.id} has no otel spec"
+        assert kpi.otel.instrument in valid
+        assert "kio.id" in kpi.otel.required_attributes
+
+
+def test_kio_id_is_bound_from_the_accessed_namespace_not_typed_by_hand():
+    assert KPI.KIO2.code_generation_speed._kio_id == "KIO2"
+    assert KPI.KIO4.code_generation_speed._kio_id == "KIO4"
+
+
+def test_for_kio_binds_a_kpi_fetched_by_id():
+    bound = KPI.get_kpi("1.1").for_kio("KIO3")
+    assert bound._kio_id == "KIO3"
+
+
+def test_for_kio_rejects_unassociated_kio():
+    with pytest.raises(ValueError):
+        KPI.get_kpi("1.1").for_kio("KIO13")

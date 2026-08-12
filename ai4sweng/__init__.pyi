@@ -9,7 +9,22 @@ from ai4sweng.kpi import _BoundKPIMetric as _BoundKPIMetric
 from ai4sweng.kpi import OTelSpec as OTelSpec
 
 class _KIO1Namespace:
+    code_generation_speed: _BoundKPIMetric
+    issue_resolution_speed: _BoundKPIMetric
+    lifecycle_energy_reduction: _BoundKPIMetric
+    deployment_energy_efficiency: _BoundKPIMetric
+    code_quality_improvement: _BoundKPIMetric
+    review_score_increase: _BoundKPIMetric
     developer_productivity: _BoundKPIMetric
+    time_to_market_pilot_feature_release: _BoundKPIMetric
+    bug_fix_time: _BoundKPIMetric
+    customer_reported_issues: _BoundKPIMetric
+    annual_cost_saving: _BoundKPIMetric
+    adoption_rate: _BoundKPIMetric
+    active_usage_satisfaction: _BoundKPIMetric
+    cross_architecture_build_success_rate: _BoundKPIMetric
+    refactoring_reduction: _BoundKPIMetric
+    technical_debt_reduction: _BoundKPIMetric
 
 class _KIO2Namespace:
     code_generation_speed: _BoundKPIMetric

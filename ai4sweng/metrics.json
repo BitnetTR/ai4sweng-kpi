@@ -9,7 +9,7 @@
       "unit": "% of baseline duration",
       "baseline": "100% (~100-120 min)",
       "target": "≤ 70% (~30% reduction)",
-      "kios": ["KIO2", "KIO3", "KIO4", "KIO7"],
+      "kios": ["KIO1", "KIO2", "KIO3", "KIO4", "KIO7"],
       "otel": [
         {
           "name": "kio.codegen.duration_minutes",
@@ -27,7 +27,7 @@
       "unit": "% of baseline duration",
       "baseline": "100% (~1.0-1.5 business days)",
       "target": "≤ 70% (~0.7 days)",
-      "kios": ["KIO2", "KIO3", "KIO4", "KIO7"],
+      "kios": ["KIO1", "KIO2", "KIO3", "KIO4", "KIO7"],
       "otel": [
         {
           "name": "kio.issue.resolution_hours",
@@ -45,7 +45,7 @@
       "unit": "% of baseline energy",
       "baseline": "100%",
       "target": "≤ 85% (≥15% reduction)",
-      "kios": ["KIO7", "KIO8", "KIO10"],
+      "kios": ["KIO1", "KIO7", "KIO8", "KIO10"],
       "otel": [
         {
           "name": "kio.lifecycle_energy.pct_of_baseline",
@@ -63,7 +63,7 @@
       "unit": "tokens/s/W",
       "baseline": "100% (unoptimized)",
       "target": "≥15% improvement",
-      "kios": ["KIO7", "KIO8", "KIO10"],
+      "kios": ["KIO1", "KIO7", "KIO8", "KIO10"],
       "otel": [
         {
           "name": "kio.deploy_energy.tokens_per_s_per_w",
@@ -81,7 +81,7 @@
       "unit": "% of baseline score",
       "baseline": "100%",
       "target": "≤ 70% (≥30% improvement)",
-      "kios": ["KIO4", "KIO7", "KIO9"],
+      "kios": ["KIO1", "KIO4", "KIO7", "KIO9"],
       "otel": [
         {
           "name": "kio.code_quality.score_pct",
@@ -99,7 +99,7 @@
       "unit": "% of baseline score",
       "baseline": "100% (~3.5/5)",
       "target": "≤ 120% (~4.2/5)",
-      "kios": ["KIO4", "KIO7", "KIO9"],
+      "kios": ["KIO1", "KIO4", "KIO7", "KIO9"],
       "otel": [
         {
           "name": "kio.review.score",
@@ -135,7 +135,7 @@
       "unit": "% of baseline duration",
       "baseline": "100% (~5-7 days)",
       "target": "≤ 70% (~3-5 days)",
-      "kios": ["KIO7", "KIO11"],
+      "kios": ["KIO1", "KIO7", "KIO11"],
       "otel": [
         {
           "name": "kio.time_to_market.days",
@@ -153,7 +153,7 @@
       "unit": "% of baseline duration",
       "baseline": "100% (~8-12 hours)",
       "target": "≤ 80% (~20% reduction)",
-      "kios": ["KIO2", "KIO7", "KIO11"],
+      "kios": ["KIO1", "KIO2", "KIO7", "KIO11"],
       "otel": [
         {
           "name": "kio.bugfix.duration_hours",
@@ -171,7 +171,7 @@
       "unit": "% of baseline rate",
       "baseline": "100% (~5 issues/feature)",
       "target": "≤ 80% (~4 issues/feature)",
-      "kios": ["KIO2", "KIO7", "KIO11"],
+      "kios": ["KIO1", "KIO2", "KIO7", "KIO11"],
       "otel": [
         {
           "name": "kio.issue.customer_reported_count",
@@ -189,7 +189,7 @@
       "unit": "% of baseline cost",
       "baseline": "100% (~€100,000/year)",
       "target": "≤ 85% (~€85,000/year)",
-      "kios": ["KIO7", "KIO8", "KIO10"],
+      "kios": ["KIO1", "KIO7", "KIO8", "KIO10"],
       "otel": [
         {
           "name": "kio.cost_saving.pct",
@@ -207,7 +207,7 @@
       "unit": "% of users",
       "baseline": "0%",
       "target": "≥50% (within 2 pilot sprints)",
-      "kios": ["KIO13"],
+      "kios": ["KIO1", "KIO13"],
       "otel": [
         {
           "name": "kio.adoption.active_user_pct",
@@ -225,7 +225,7 @@
       "unit": "% / MOS",
       "baseline": "Usage: 0%, MOS: ~3.0/5",
       "target": "Usage ≥60%, MOS ≥ 4.0/5",
-      "kios": ["KIO13"],
+      "kios": ["KIO1", "KIO13"],
       "otel": [
         {
           "key": "usage_pct",
@@ -251,7 +251,7 @@
       "unit": "Count",
       "baseline": "0",
       "target": "≥ 1 validated target",
-      "kios": ["KIO8"],
+      "kios": ["KIO1", "KIO8"],
       "otel": [
         {
           "name": "kio.cross_arch_build.success_count",
@@ -269,7 +269,7 @@
       "unit": "% reduction",
       "baseline": "100% (~2-3 hours/feature)",
       "target": "≤ 80% (~25% reduction)",
-      "kios": ["KIO7", "KIO9"],
+      "kios": ["KIO1", "KIO7", "KIO9"],
       "otel": [
         {
           "name": "kio.refactoring.hours_per_feature",
@@ -287,7 +287,7 @@
       "unit": "% of baseline debt",
       "baseline": "100% (~1.0-1.2 hours/100 LOC)",
       "target": "≤ 80% (~20% reduction)",
-      "kios": ["KIO7", "KIO9"],
+      "kios": ["KIO1", "KIO7", "KIO9"],
       "otel": [
         {
           "name": "kio.tech_debt.hours_per_100loc",

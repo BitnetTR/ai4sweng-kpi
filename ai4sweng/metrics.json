@@ -10,12 +10,14 @@
       "baseline": "100% (~100-120 min)",
       "target": "≤ 70% (~30% reduction)",
       "kios": ["KIO2", "KIO3", "KIO4", "KIO7"],
-      "otel": {
-        "name": "ai4sweng.kpi.code_generation_speed",
-        "instrument": "Histogram",
-        "unit": "s",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.codegen.duration_minutes",
+          "instrument": "Histogram",
+          "unit": "min",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "1.2",
@@ -26,12 +28,14 @@
       "baseline": "100% (~1.0-1.5 business days)",
       "target": "≤ 70% (~0.7 days)",
       "kios": ["KIO2", "KIO3", "KIO4", "KIO7"],
-      "otel": {
-        "name": "ai4sweng.kpi.issue_resolution_speed",
-        "instrument": "Histogram",
-        "unit": "s",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.issue.resolution_hours",
+          "instrument": "Histogram",
+          "unit": "h",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "2.1",
@@ -42,12 +46,14 @@
       "baseline": "100%",
       "target": "≤ 85% (≥15% reduction)",
       "kios": ["KIO7", "KIO8", "KIO10"],
-      "otel": {
-        "name": "ai4sweng.kpi.lifecycle_energy_reduction",
-        "instrument": "Histogram",
-        "unit": "J",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.lifecycle_energy.pct_of_baseline",
+          "instrument": "Histogram",
+          "unit": "%",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "2.2",
@@ -58,12 +64,14 @@
       "baseline": "100% (unoptimized)",
       "target": "≥15% improvement",
       "kios": ["KIO7", "KIO8", "KIO10"],
-      "otel": {
-        "name": "ai4sweng.kpi.deployment_energy_efficiency",
-        "instrument": "Histogram",
-        "unit": "{token}/s/W",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.deploy_energy.tokens_per_s_per_w",
+          "instrument": "Histogram",
+          "unit": "1",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "3.1",
@@ -74,12 +82,14 @@
       "baseline": "100%",
       "target": "≤ 70% (≥30% improvement)",
       "kios": ["KIO4", "KIO7", "KIO9"],
-      "otel": {
-        "name": "ai4sweng.kpi.code_quality_improvement",
-        "instrument": "Gauge",
-        "unit": "1",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.code_quality.score_pct",
+          "instrument": "Histogram",
+          "unit": "%",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "3.2",
@@ -90,12 +100,14 @@
       "baseline": "100% (~3.5/5)",
       "target": "≤ 120% (~4.2/5)",
       "kios": ["KIO4", "KIO7", "KIO9"],
-      "otel": {
-        "name": "ai4sweng.kpi.review_score_increase",
-        "instrument": "Gauge",
-        "unit": "1",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.review.score",
+          "instrument": "Histogram",
+          "unit": "1",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "4.1",
@@ -106,12 +118,14 @@
       "baseline": "100% (~1 feature/day)",
       "target": "≤ 120% (~1.20 features/day)",
       "kios": ["KIO1", "KIO7", "KIO13"],
-      "otel": {
-        "name": "ai4sweng.kpi.developer_productivity",
-        "instrument": "Gauge",
-        "unit": "1",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.dev_productivity.features_per_day",
+          "instrument": "Histogram",
+          "unit": "1",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "5.1",
@@ -122,12 +136,14 @@
       "baseline": "100% (~5-7 days)",
       "target": "≤ 70% (~3-5 days)",
       "kios": ["KIO7", "KIO11"],
-      "otel": {
-        "name": "ai4sweng.kpi.time_to_market_pilot_feature_release",
-        "instrument": "Histogram",
-        "unit": "s",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.time_to_market.days",
+          "instrument": "Histogram",
+          "unit": "d",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "6.1",
@@ -138,12 +154,14 @@
       "baseline": "100% (~8-12 hours)",
       "target": "≤ 80% (~20% reduction)",
       "kios": ["KIO2", "KIO7", "KIO11"],
-      "otel": {
-        "name": "ai4sweng.kpi.bug_fix_time",
-        "instrument": "Histogram",
-        "unit": "s",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.bugfix.duration_hours",
+          "instrument": "Histogram",
+          "unit": "h",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "6.2",
@@ -154,12 +172,14 @@
       "baseline": "100% (~5 issues/feature)",
       "target": "≤ 80% (~4 issues/feature)",
       "kios": ["KIO2", "KIO7", "KIO11"],
-      "otel": {
-        "name": "ai4sweng.kpi.customer_reported_issues",
-        "instrument": "Counter",
-        "unit": "{issue}",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.issue.customer_reported_count",
+          "instrument": "Counter",
+          "unit": "1",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "7.1",
@@ -170,12 +190,14 @@
       "baseline": "100% (~€100,000/year)",
       "target": "≤ 85% (~€85,000/year)",
       "kios": ["KIO7", "KIO8", "KIO10"],
-      "otel": {
-        "name": "ai4sweng.kpi.annual_cost_saving",
-        "instrument": "Gauge",
-        "unit": "EUR",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.cost_saving.pct",
+          "instrument": "Histogram",
+          "unit": "%",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "8.1",
@@ -186,28 +208,40 @@
       "baseline": "0%",
       "target": "≥50% (within 2 pilot sprints)",
       "kios": ["KIO13"],
-      "otel": {
-        "name": "ai4sweng.kpi.adoption_rate",
-        "instrument": "Gauge",
-        "unit": "1",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.adoption.active_user_pct",
+          "instrument": "Histogram",
+          "unit": "%",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "8.2",
       "name": "Active usage & satisfaction",
       "attr": "active_usage_satisfaction",
-      "definition": "Active usage percentage + user satisfaction score (MOS 1-5).",
+      "definition": "Active usage percentage + user satisfaction score (MOS 1-5). Realized in kio_simulator.py as two separate real metrics -- select which one to record with the 'usage_pct' or 'mos_score' otel_key.",
       "unit": "% / MOS",
       "baseline": "Usage: 0%, MOS: ~3.0/5",
       "target": "Usage ≥60%, MOS ≥ 4.0/5",
       "kios": ["KIO13"],
-      "otel": {
-        "name": "ai4sweng.kpi.active_usage_satisfaction",
-        "instrument": "Gauge",
-        "unit": "1",
-        "required_attributes": ["source", "component"]
-      }
+      "otel": [
+        {
+          "key": "usage_pct",
+          "name": "kio.adoption.usage_pct",
+          "instrument": "Histogram",
+          "unit": "%",
+          "required_attributes": ["source", "llm", "task_type"]
+        },
+        {
+          "key": "mos_score",
+          "name": "kio.adoption.mos_score",
+          "instrument": "Histogram",
+          "unit": "1",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "8.3",
@@ -218,12 +252,14 @@
       "baseline": "0",
       "target": "≥ 1 validated target",
       "kios": ["KIO8"],
-      "otel": {
-        "name": "ai4sweng.kpi.cross_architecture_build_success_rate",
-        "instrument": "UpDownCounter",
-        "unit": "{target}",
-        "required_attributes": ["source", "architecture"]
-      }
+      "otel": [
+        {
+          "name": "kio.cross_arch_build.success_count",
+          "instrument": "Counter",
+          "unit": "1",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "9.1",
@@ -234,12 +270,14 @@
       "baseline": "100% (~2-3 hours/feature)",
       "target": "≤ 80% (~25% reduction)",
       "kios": ["KIO7", "KIO9"],
-      "otel": {
-        "name": "ai4sweng.kpi.refactoring_reduction",
-        "instrument": "Histogram",
-        "unit": "h",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.refactoring.hours_per_feature",
+          "instrument": "Histogram",
+          "unit": "h",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     },
     {
       "id": "9.2",
@@ -250,12 +288,14 @@
       "baseline": "100% (~1.0-1.2 hours/100 LOC)",
       "target": "≤ 80% (~20% reduction)",
       "kios": ["KIO7", "KIO9"],
-      "otel": {
-        "name": "ai4sweng.kpi.technical_debt_reduction",
-        "instrument": "Histogram",
-        "unit": "h",
-        "required_attributes": ["source"]
-      }
+      "otel": [
+        {
+          "name": "kio.tech_debt.hours_per_100loc",
+          "instrument": "Histogram",
+          "unit": "h",
+          "required_attributes": ["source", "llm", "task_type"]
+        }
+      ]
     }
   ]
 }

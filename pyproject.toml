@@ -25,4 +25,4 @@ where = ["."]
 include = ["ai4sweng*"]
 
 [tool.setuptools.package-data]
-ai4sweng = ["metrics.json"]
+ai4sweng = ["metrics.json", "py.typed", "__init__.pyi"]

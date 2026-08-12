@@ -67,19 +67,46 @@ def test_reload_after_editing_metrics_file(tmp_path, monkeypatch):
 
 
 def test_metric_carries_otel_instrumentation_contract():
+    # These values are aligned with the real kio_simulator.py implementation
+    # (kio.codegen.duration_minutes), not invented -- see README.
     spec = KPI.KIO7.code_generation_speed.otel
-    assert spec.name == "ai4sweng.kpi.code_generation_speed"
+    assert spec.name == "kio.codegen.duration_minutes"
     assert spec.instrument == "Histogram"
-    assert spec.unit == "s"
-    assert spec.required_attributes == ["kio.id", "source"]
+    assert spec.unit == "min"
+    assert spec.required_attributes == ["kio.id", "source", "llm", "task_type"]
 
 
-def test_every_kpi_has_a_valid_otel_instrument():
+def test_every_kpi_has_at_least_one_valid_otel_instrument():
     valid = {"Counter", "UpDownCounter", "Histogram", "Gauge"}
     for kpi in KPI.list_kpis():
-        assert kpi.otel is not None, f"{kpi.id} has no otel spec"
-        assert kpi.otel.instrument in valid
-        assert "kio.id" in kpi.otel.required_attributes
+        assert kpi.otel_specs, f"{kpi.id} has no otel spec"
+        for spec in kpi.otel_specs:
+            assert spec.instrument in valid
+            assert "kio.id" in spec.required_attributes
+
+
+def test_otel_convenience_is_the_single_spec_or_none_if_ambiguous():
+    # KPI 1.1 has exactly one OTel instrument -> .otel is that spec directly.
+    single = KPI.get_kpi("1.1")
+    assert len(single.otel_specs) == 1
+    assert single.otel is single.otel_specs[0]
+
+    # KPI 8.2 is realized as two real metrics (kio.adoption.usage_pct +
+    # kio.adoption.mos_score) -- .otel is deliberately None so a caller can't
+    # accidentally record against the wrong one; use otel_specs/get_otel_spec().
+    multi = KPI.get_kpi("8.2")
+    assert len(multi.otel_specs) == 2
+    assert multi.otel is None
+    assert {spec.key for spec in multi.otel_specs} == {"usage_pct", "mos_score"}
+
+
+def test_get_otel_spec_by_key():
+    metric = KPI.get_kpi("8.2")
+    assert metric.get_otel_spec("mos_score").name == "kio.adoption.mos_score"
+    with pytest.raises(ValueError, match="otel_key"):
+        metric.get_otel_spec()
+    with pytest.raises(ValueError, match="no OTel instrument keyed"):
+        metric.get_otel_spec("nonexistent")
 
 
 def test_kio_id_is_bound_from_the_accessed_namespace_not_typed_by_hand():
@@ -95,3 +122,25 @@ def test_for_kio_binds_a_kpi_fetched_by_id():
 def test_for_kio_rejects_unassociated_kio():
     with pytest.raises(ValueError):
         KPI.get_kpi("1.1").for_kio("KIO13")
+
+
+def test_kio_is_a_real_attribute_not_only_resolvable_via_getattr():
+    # dir()/hasattr()/IDE-autocomplete only see real attributes, not names
+    # that merely happen to resolve through __getattr__.
+    assert "KIO7" in vars(KPI)
+    assert "KIO7" in dir(KPI)
+
+
+def test_dir_on_kpi_includes_public_methods_and_kios():
+    names = dir(KPI)
+    assert "list_kios" in names
+    assert "get_kpi" in names
+    assert "KIO1" in names
+    assert not any(n.startswith("_") for n in names)
+
+
+def test_bound_metric_fields_are_real_attributes_not_proxied():
+    bound = KPI.KIO7.code_generation_speed
+    assert "id" in vars(bound)
+    assert "otel" in vars(bound)
+    assert "name" in dir(bound)

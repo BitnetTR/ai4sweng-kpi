@@ -1,0 +1,165 @@
+{
+  "kios": ["KIO1", "KIO2", "KIO3", "KIO4", "KIO5", "KIO6", "KIO7", "KIO8", "KIO9", "KIO10", "KIO11", "KIO12", "KIO13"],
+  "kpis": [
+    {
+      "id": "1.1",
+      "name": "Code generation speed",
+      "attr": "code_generation_speed",
+      "definition": "Prompt/template başlangıcından 300-500 LOC özelliğin ilk başarılı derlemesine kadar geçen ortalama süre.",
+      "unit": "% baseline süre",
+      "baseline": "100% (~100-120 dk)",
+      "target": "≤ 70% (~%30 azalma)",
+      "kios": ["KIO2", "KIO3", "KIO4", "KIO7"]
+    },
+    {
+      "id": "1.2",
+      "name": "Issue resolution speed",
+      "attr": "issue_resolution_speed",
+      "definition": "Kusur tespitinden (CI/CD veya QA) onaylı çözüme ve başarılı merge'e kadar geçen süre.",
+      "unit": "% baseline süre",
+      "baseline": "100% (~1.0-1.5 iş günü)",
+      "target": "≤ 70% (~0.7 gün)",
+      "kios": ["KIO2", "KIO3", "KIO4", "KIO7"]
+    },
+    {
+      "id": "2.1",
+      "name": "Lifecycle energy reduction",
+      "attr": "lifecycle_energy_reduction",
+      "definition": "Özellik yaşam döngüsü boyunca tüketilen toplam enerji (eğitim+çıkarım+build/test/deploy).",
+      "unit": "% baseline enerji",
+      "baseline": "100%",
+      "target": "≤ 85% (≥%15 azalma)",
+      "kios": ["KIO7", "KIO8", "KIO10"]
+    },
+    {
+      "id": "2.2",
+      "name": "Deployment energy efficiency",
+      "attr": "deployment_energy_efficiency",
+      "definition": "Çıkarım/kod-üretimi sırasında verimlilik: token·s⁻¹·W⁻¹.",
+      "unit": "tokens/s/W",
+      "baseline": "100% (optimize edilmemiş)",
+      "target": "≥%15 iyileşme",
+      "kios": ["KIO7", "KIO8", "KIO10"]
+    },
+    {
+      "id": "3.1",
+      "name": "Code quality improvement",
+      "attr": "code_quality_improvement",
+      "definition": "Okunabilirlik+sürdürülebilirlik+standart uyumu bileşik skoru (Sonar benzeri).",
+      "unit": "% baseline skor",
+      "baseline": "100%",
+      "target": "≤ 70% (≥%30 iyileşme)",
+      "kios": ["KIO4", "KIO7", "KIO9"]
+    },
+    {
+      "id": "3.2",
+      "name": "Review score increase",
+      "attr": "review_score_increase",
+      "definition": "AI-destekli ve geleneksel kod arasında peer-review skor farkı.",
+      "unit": "% baseline skor",
+      "baseline": "100% (~3.5/5)",
+      "target": "≤ 120% (~4.2/5)",
+      "kios": ["KIO4", "KIO7", "KIO9"]
+    },
+    {
+      "id": "4.1",
+      "name": "Developer productivity",
+      "attr": "developer_productivity",
+      "definition": "Geliştirici başına sprint'te tamamlanan görev/özellik sayısı (çalışma saatine normalize).",
+      "unit": "% baseline verimlilik",
+      "baseline": "100% (~1 özellik/gün)",
+      "target": "≤ 120% (~1.20 özellik/gün)",
+      "kios": ["KIO1", "KIO7", "KIO13"]
+    },
+    {
+      "id": "5.1",
+      "name": "Time-to-Market (Pilot Feature Release)",
+      "attr": "time_to_market_pilot_feature_release",
+      "definition": "Özellik tasarımından test ortamına başarılı dağıtıma kadar geçen süre.",
+      "unit": "% baseline süre",
+      "baseline": "100% (~5-7 gün)",
+      "target": "≤ 70% (~3-5 gün)",
+      "kios": ["KIO7", "KIO11"]
+    },
+    {
+      "id": "6.1",
+      "name": "Bug-fix time",
+      "attr": "bug_fix_time",
+      "definition": "Hata bildiriminden ana dala başarılı merge'e kadar geçen ortalama süre.",
+      "unit": "% baseline süre",
+      "baseline": "100% (~8-12 saat)",
+      "target": "≤ 80% (~%20 azalma)",
+      "kios": ["KIO2", "KIO7", "KIO11"]
+    },
+    {
+      "id": "6.2",
+      "name": "Customer-reported issues",
+      "attr": "customer_reported_issues",
+      "definition": "Test kullanıcılarının pilot özellik başına bildirdiği ortalama işlevsel/kullanılabilirlik sorunu sayısı.",
+      "unit": "% baseline oran",
+      "baseline": "100% (~5 sorun/özellik)",
+      "target": "≤ 80% (~4 sorun/özellik)",
+      "kios": ["KIO2", "KIO7", "KIO11"]
+    },
+    {
+      "id": "7.1",
+      "name": "Annual cost saving",
+      "attr": "annual_cost_saving",
+      "definition": "Geliştirici zamanı, test efor ve rework saatleri dahil toplam yıllık maliyet azalması (FTE başına).",
+      "unit": "% baseline maliyet",
+      "baseline": "100% (~€100.000/yıl)",
+      "target": "≤ 85% (~€85.000/yıl)",
+      "kios": ["KIO7", "KIO8", "KIO10"]
+    },
+    {
+      "id": "8.1",
+      "name": "Adoption rate",
+      "attr": "adoption_rate",
+      "definition": "AI4SWEng özelliklerini düzenli kullanan aktif geliştirici/takım yüzdesi.",
+      "unit": "% kullanıcı",
+      "baseline": "0%",
+      "target": "≥%50 (2 pilot sprint içinde)",
+      "kios": ["KIO13"]
+    },
+    {
+      "id": "8.2",
+      "name": "Active usage & satisfaction",
+      "attr": "active_usage_satisfaction",
+      "definition": "Aktif kullanım yüzdesi + kullanıcı memnuniyet skoru (MOS 1-5).",
+      "unit": "% / MOS",
+      "baseline": "Kullanım: 0%, MOS: ~3.0/5",
+      "target": "Kullanım ≥%60, MOS ≥ 4.0/5",
+      "kios": ["KIO13"]
+    },
+    {
+      "id": "8.3",
+      "name": "Cross-Architecture Build Success Rate",
+      "attr": "cross_architecture_build_success_rate",
+      "definition": "En az bir heterojen hedef mimaride (FPGA/ARM/RISC-V) otomatik yapılandırmayla derleme/çalıştırma.",
+      "unit": "Sayı",
+      "baseline": "0",
+      "target": "≥ 1 doğrulanmış hedef",
+      "kios": ["KIO8"]
+    },
+    {
+      "id": "9.1",
+      "name": "Refactoring reduction",
+      "attr": "refactoring_reduction",
+      "definition": "Review/deploy sonrası refactoring eforunda (saat/commit) azalma.",
+      "unit": "% azalma",
+      "baseline": "100% (~2-3 saat/özellik)",
+      "target": "≤ 80% (~%25 azalma)",
+      "kios": ["KIO7", "KIO9"]
+    },
+    {
+      "id": "9.2",
+      "name": "Technical debt reduction",
+      "attr": "technical_debt_reduction",
+      "definition": "Kod kokusu/karmaşıklık/sürdürülebilirlik ihlallerini düzeltmek için gereken tahmini efor azalması.",
+      "unit": "% baseline borç",
+      "baseline": "100% (~1.0-1.2 saat/100 LOC)",
+      "target": "≤ 80% (~%20 azalma)",
+      "kios": ["KIO7", "KIO9"]
+    }
+  ]
+}

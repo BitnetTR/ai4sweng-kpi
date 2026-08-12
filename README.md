@@ -1,4 +1,4 @@
-🇬🇧 English | 🇹🇷 [Türkçe](README.md)
+EN English | TR [Türkçe](README.tr.md)
 
 # ai4sweng — KPI Interface for KIO Modules
 

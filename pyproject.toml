@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai4sweng"
+version = "0.1.0"
+description = "KPI interface for KIO modules"
+readme = "README.md"
+authors = [{name = "AI4SWEng Team", email = "team@ai4sweng.com"}]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "ruff"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ai4sweng*"]
+
+[tool.setuptools.package-data]
+ai4sweng = ["metrics.json"]
